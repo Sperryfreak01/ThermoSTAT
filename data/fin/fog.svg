@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg3407" inkscape:version="0.47 r22583" sodipodi:docname="fog.svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="64px" height="64px"
+	 viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+<defs>
+	
+	
+		<inkscape:perspective  sodipodi:type="inkscape:persp3d" inkscape:vp_x="0 : 32 : 1" inkscape:vp_y="0 : 1000 : 0" inkscape:vp_z="64 : 32 : 1" inkscape:persp3d-origin="32 : 21.333333 : 1" id="perspective3415">
+		</inkscape:perspective>
+	
+		<inkscape:perspective  sodipodi:type="inkscape:persp3d" inkscape:vp_x="0 : 0.5 : 1" inkscape:vp_y="0 : 1000 : 0" inkscape:vp_z="1 : 0.5 : 1" inkscape:persp3d-origin="0.5 : 0.33333333 : 1" id="perspective3425">
+		</inkscape:perspective>
+</defs>
+<sodipodi:namedview  bordercolor="#666666" pagecolor="#ffffff" inkscape:pageshadow="2" id="base" inkscape:zoom="7.26" borderopacity="1.0" inkscape:cy="31.859353" inkscape:pageopacity="0.0" inkscape:cx="30.390388" inkscape:current-layer="layer1" showgrid="true" inkscape:document-units="px" inkscape:grid-bbox="true" inkscape:window-width="627" inkscape:window-height="712" inkscape:window-x="389" inkscape:window-y="156" inkscape:window-maximized="0">
+	</sodipodi:namedview>
+<path id="path2953" fill="#F2F2F2" d="M49.447,36.959c-5.885,0-5.885,2.958-11.822,2.958c-5.719,0-5.75-2.958-11.375-2.958
+	s-5.641,2.958-11.312,2.958c-4.922-0.042-6.422-1.589-9.031-2.958C3.417,35.833,0.964,39.521,5.371,42
+	c1.16,0.652,4.618,3.094,9.566,3.094c5.688,0,5.656-3.281,11.312-3.281s5.385,3.281,11.375,3.281s5.873-3.281,11.822-3.281
+	c6.812,0,7.797,2.363,9.348,2.331c1.789,0.002,2.817-2.887,0.651-4.227C56.48,38.083,55.396,36.959,49.447,36.959z"/>
+<path id="path2953_1_" fill="#F2F2F2" d="M49.447,43.552c-5.885,0-5.885,2.958-11.822,2.958c-5.719,0-5.75-2.958-11.375-2.958
+	s-5.641,2.958-11.312,2.958c-4.922-0.042-6.422-1.589-9.031-2.958c-2.49-1.126-4.942,2.562-0.535,5.041
+	c1.16,0.652,4.618,3.094,9.566,3.094c5.688,0,5.656-3.281,11.312-3.281s5.385,3.281,11.375,3.281s5.873-3.281,11.822-3.281
+	c6.812,0,7.797,2.363,9.348,2.331c1.789,0.002,2.817-2.887,0.651-4.227C56.48,44.676,55.396,43.552,49.447,43.552z"/>
+<path id="path2961_1_" sodipodi:nodetypes="cssszscsscscsssscccsscccscccccscc" fill="#F2F2F2" d="M49.447,35.469
+	c5.943,0,6.845,0.906,10.012,2.906c0.554-0.645,0.663-2.354,0.726-3.08c0.164-3.711-1.634-6.065-4.856-6.468
+	c-0.099-2.197-0.762-3.951-1.943-5.371c-2.321-2.793-7.111-4.529-11.775-3.599c-1.018-2.546-2.691-4.67-4.887-6.285
+	c-2.511-1.847-6.015-3.304-10.42-2.971c-3.66,0.277-6.991,1.722-9.244,3.829c-2.749,2.568-4.798,6.042-4.417,11.083
+	c-4.11,0.236-6.636,2.727-7.183,6.171c-0.218,1.377-0.017,2.65,0.447,3.757c1.232,0.071,4.375,2.965,9.125,2.934
+	c5.594-0.037,5.594-2.906,11.198-2.906c5.677,0,5.677,2.938,11.375,2.906C43.656,38.406,43.504,35.469,49.447,35.469z"/>
+</svg>
