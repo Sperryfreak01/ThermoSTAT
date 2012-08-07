@@ -15,31 +15,31 @@ public class Wunderground {
   String forecast_url;       //getForecastLink
   String observation_epoch;  //getUpdateTime
   String relative_humidity;  //getHumidity
- public int hitCount = 0;
- public int hitCountPerMinute = 0;
-  int date = day();
+  public int hitCount;
+  public int hitCountPerMinute;
+  public int date = 0;
   int minutes = minute();
   boolean updateSuccess;
 
-void setHitCounter(int dayCount, int minCount){
+
+
+  void setHitCounter(int dayCount, int minCount) {
     int hitCount = dayCount;
+    println("hitcount:"+ hitCount);
     int hitCountPerMinute = minCount;
-}
-
-
-  
+  }
 
   public String getCondition() {
     String formatedIcon = "";
     String[] temp = new String [2];
-    temp[0] = icon.substring(0,1).toUpperCase();
-    temp[1] = icon.substring(1,icon.length());
-    formatedIcon = join(temp,"");
+    temp[0] = icon.substring(0, 1).toUpperCase();
+    temp[1] = icon.substring(1, icon.length());
+    formatedIcon = join(temp, "");
     return formatedIcon;
   }
 
   public String getUpdateTime() {
-    String date = new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date (int(observation_epoch)*1000L));
+    String date = new java.text.SimpleDateFormat("MMM d, h:m zz").format(new java.util.Date (int(observation_epoch)*1000L));
     return date;
   }
 
@@ -192,6 +192,8 @@ void setHitCounter(int dayCount, int minCount){
 
   public boolean update(String zipCode, String key) {
     if (date != day()) {
+      println("date:"+day());
+      println("reseting hitcount");
       hitCount = 0;
       date = day();
     } 
@@ -212,12 +214,13 @@ void setHitCounter(int dayCount, int minCount){
         urlParts[3] = zipCode;
         urlParts[4] = ".xml";
         String updateURL = join(urlParts, "");
-        println(updateURL);
+        // println(updateURL);
         //Request the current conditions from Wunderground in XML format 
         try {
           weatherData = new XMLElement(getPapplet(), updateURL);
           hitCount++;
           hitCountPerMinute++;
+
           updateSuccess = true;
         }
         catch (Exception e) {
@@ -238,51 +241,51 @@ void setHitCounter(int dayCount, int minCount){
           XMLElement kid = currentObservations.getChild(i);
           if (kid.getName().equals("temp_c") ) {
             temp_c = kid.getContent();
-            println("temp C: " + temp_c);
+            //  println("temp C: " + temp_c);
           }
           if (kid.getName().equals("wind_degrees") ) {
             wind_degrees = kid.getContent();
-            println("wind_degrees: " + wind_degrees);
+            //  println("wind_degrees: " + wind_degrees);
           }
           if (kid.getName().equals("wind_gust_kph") ) {
             wind_gust_kph = kid.getContent();
-            println("wind_gust_kph: " + wind_gust_kph);
+            //  println("wind_gust_kph: " + wind_gust_kph);
           }
           if (kid.getName().equals("wind_kph") ) {
             wind_kph = kid.getContent();
-            println("wind_kph: " + wind_kph);
+            //  println("wind_kph: " + wind_kph);
           }
           if (kid.getName().equals("pressure_mb") ) {
             pressure_mb = kid.getContent();
-            println("pressure_mb: " + pressure_mb);
+            //  println("pressure_mb: " + pressure_mb);
           }
           if (kid.getName().equals("dewpoint_c") ) {
             dewpoint_c = kid.getContent();
-            println("dewpoint_c: " + dewpoint_c);
+            //  println("dewpoint_c: " + dewpoint_c);
           }
           if (kid.getName().equals("heat_index_c") ) {
             heat_index_c = kid.getContent();
-            println("heat_index_c: " + heat_index_c);
+            //  println("heat_index_c: " + heat_index_c);
           }
           if (kid.getName().equals("windchill_c") ) {
             windchill_c = kid.getContent();
-            println("windchill_c: " + windchill_c);
+            //  println("windchill_c: " + windchill_c);
           }
           if (kid.getName().equals("icon") ) {
             icon = kid.getContent();
-            println("icon: " + icon);
+            //  println("icon: " + icon);
           }
           if (kid.getName().equals("forecast_url") ) {
             forecast_url = kid.getContent();
-            println("forecast_url: " + forecast_url);
+            //  println("forecast_url: " + forecast_url);
           }
           if (kid.getName().equals("observation_epoch") ) {
             observation_epoch = kid.getContent();
-            println("observation_epoch: " + observation_epoch);
+            //  println("observation_epoch: " + observation_epoch);
           }
           if (kid.getName().equals("relative_humidity") ) {
             relative_humidity = kid.getContent();
-            println("relative_humidity: " + relative_humidity);
+            //  println("relative_humidity: " + relative_humidity);
           }
         }
       }

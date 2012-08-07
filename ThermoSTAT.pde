@@ -12,8 +12,9 @@ void loadSettings() {
   HotTemp = int(settings(read, "HotTemp", ""));
   HellTemp = int(settings(read, "HellTemp", ""));
   apiKey = settings(read, "apiKey", "");
-  wundergroundWeather.setHitCounter( int(settings(read, "hitCount", "")), int(settings(read, "hitCountPerMinute", "")));
-  // wundergroundWeather.hitCountPerMinute = int(settings(read, "hitCount", ""));
+  wundergroundWeather.date = int(settings(read, "WG_last_sample_date", ""));
+  wundergroundWeather.hitCount = int(settings(read, "hitCount", ""));
+  wundergroundWeather.hitCountPerMinute = int(settings(read, "hitCountPerMinute", ""));
 }
 void storeSettings() {
   settings(write, "apiKey", apiKey);
@@ -28,6 +29,7 @@ void storeSettings() {
   settings(write, "SpeedUnits", str(SpeedUnits));
   settings(write, "weatherService", str(weatherService));
   settings(write, "sizeSelect", str(sizeSelect));
+  settings(write, "WG_last_sample_date", str(wundergroundWeather.date));
   settings(write, "hitCount", str(wundergroundWeather.hitCount));
   settings(write, "hitCountPerMinute", str(wundergroundWeather.hitCountPerMinute));
 }

@@ -15,7 +15,7 @@ void drawWeatherNow() {
   textAlign(LEFT);
   fill(fontColor);
   textSize(20);
-  text(googleWeather.getWeekdayInXDays(0)+", "+getDateInXDays(0), 46, 155);
+  text(measureTime(weatherService, SpeedUnits), 46, 155);
   textSize(90);
   text(currentTemp(weatherService, TempUnits), paddingLeft+15, paddingTop+80);
   textSize(20);

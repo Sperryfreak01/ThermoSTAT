@@ -30,6 +30,17 @@ String currentTemp(int serviceSelect, int units) {
   return FormatedTemp;
 }
 
+String measureTime(int serviceSelect, int units) {
+  String time= "";
+  if (serviceSelect == 0) {
+    time = new java.text.SimpleDateFormat("MMM d, h:m zz").format(googleWeather.getLastUpdated());
+  }
+  if (serviceSelect == 1) {
+    time = wundergroundWeather.getUpdateTime();
+  }
+  return time;
+}
+
 String currentHumidity(int serviceSelect, int units) {
   String humidity= "";
   if (serviceSelect == 0) {
