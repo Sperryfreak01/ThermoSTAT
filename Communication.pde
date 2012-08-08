@@ -23,33 +23,65 @@ void serialEvent(Serial myPort) {
   // send a byte to ask for more data:
   // myPort.write(5);
 }
-
-
-String settings(boolean RW, String label, String attr) {
-  //try and open the properties folder
+void openXMLfile(String filename) {
+  println(filename);
   try {
-    props.load(createInput("settings"));
-    println("settings XML opened   ");
+  } 
+  catch (Exception e) {
+    println(e);
   }
-  catch (IOException e) {
-    println("Could not open   " + e);
-  }
+}
 
-  if (RW) {
-    props.setProperty(label, attr);
-    //try and save the settings file
+
+/* called automatically whenever an XML file is loaded */
+String settings(boolean RW, String label, String attr) {
+  //XMLTag xml =XMLDoc.from(new File(dataPath("") +"settings.xml"), true);
+
+  if (!RW ) {
+
     try {
-      props.store(createOutput("settings"), "ThermoSTAT program settings");
-      attr = "write OK";
-    }
-    catch (IOException e) {
-      println("Could not save   " + e);
+      XMLTag xml =XMLDoc.from(new File(dataPath("") +"settings.xml"), true);
+
+      xml.gotoRoot();
+      xml.gotoChild(label);
+      attr = xml.getText().toString();
+      println(label + " : " + attr);
+    } 
+    catch (Exception e) {
+      println("Threw exception" + e);
+      // println("No settings object with the name:  " +label);
     }
   }
-  if (!RW) {
-    attr = props.getProperty(label);
+  if (RW ) {
+    XMLTag xml =XMLDoc.newDocument(true).addRoot("settings");
+    xml.gotoRoot();
+    xml.deleteChilds();
+    xml.addTag("FreezingTemp").addText(str(FreezingTemp));
+    xml.addTag("ColdTemp").addText(str(ColdTemp));
+    xml.addTag("CoolTemp").addText(str(CoolTemp));
+    xml.addTag("PerfectTemp").addText(str(PerfectTemp));
+    xml.addTag("WarmTemp").addText(str(WarmTemp));
+    xml.addTag("HotTemp").addText(str(HotTemp));
+    xml.addTag("HellTemp").addText(str(HellTemp));
+    xml.addTag("TempUnits").addText(str(TempUnits));
+    xml.addTag("SpeedUnits").addText(str(SpeedUnits));
+    xml.addTag("weatherService").addText(str(weatherService));
+    xml.addTag("sizeSelect").addText(str(sizeSelect));
+    xml.addTag("WG_last_sample_date").addText(str(wundergroundWeather.date));
+    xml.addTag("hitCount").addText(str(wundergroundWeather.hitCount));
+    xml.addTag("hitCountPerMinute").addText(str(wundergroundWeather.hitCountPerMinute));
+    xml.addTag("apiKey").addText(apiKey);
+    output = createWriter(dataPath("") + "settings.xml"); 
+    output.println(xml); // Write the doc to the file
+    output.flush(); // Writes the remaining data to the file
+    output.close(); // Finishes the file
   }
-  println(label + " : " + attr);
   return attr;
 }
 
+void writeToFile(String filename) {
+  output = createWriter(filename); 
+  output.println(xml); // Write the doc to the file
+  output.flush(); // Writes the remaining data to the file
+  output.close(); // Finishes the file}
+}

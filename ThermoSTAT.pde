@@ -16,33 +16,20 @@ void loadSettings() {
   wundergroundWeather.hitCount = int(settings(read, "hitCount", ""));
   wundergroundWeather.hitCountPerMinute = int(settings(read, "hitCountPerMinute", ""));
 }
+
 void storeSettings() {
-  settings(write, "apiKey", apiKey);
-  settings(write, "FreezingTemp", str(FreezingTemp));
-  settings(write, "ColdTemp", str(ColdTemp));
-  settings(write, "CoolTemp", str(CoolTemp));
-  settings(write, "PerfectTemp", str(PerfectTemp));
-  settings(write, "WarmTemp", str(WarmTemp));
-  settings(write, "HotTemp", str(HotTemp));
-  settings(write, "HellTemp", str(HellTemp));
-  settings(write, "TempUnits", str(TempUnits));
-  settings(write, "SpeedUnits", str(SpeedUnits));
-  settings(write, "weatherService", str(weatherService));
-  settings(write, "sizeSelect", str(sizeSelect));
-  settings(write, "WG_last_sample_date", str(wundergroundWeather.date));
-  settings(write, "hitCount", str(wundergroundWeather.hitCount));
-  settings(write, "hitCountPerMinute", str(wundergroundWeather.hitCountPerMinute));
 }
 
 
 void exit() {
   println("EXIT HOOK");
-  storeSettings();
+  settings(write,"","");
   super.exit();
 }
 
 
 public void setup() {
+  openXMLfile((dataPath("") + "settings.xml"));
   googleWeather = new GoogleWeather(this, cityName, updateIntervallInSeconds);      
   wundergroundWeather = new Wunderground();
   loadSettings();
@@ -57,12 +44,12 @@ public void setup() {
   case 2:
     size(screen.width, screen.height);
     break;
-  }
+  }    
+
   if (!restartFlag) {
     frameRate(30);
     colorMode(RGB);
-    frame.setLocation(1, 1);
-
+    frame.setLocation(0, 0);
 
     updateWeather(int(settings(read, "weatherService", "")));
 

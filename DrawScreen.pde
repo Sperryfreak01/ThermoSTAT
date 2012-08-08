@@ -15,8 +15,8 @@ void drawWeatherNow() {
   textAlign(LEFT);
   fill(fontColor);
   textSize(20);
-  text(measureTime(weatherService, SpeedUnits), 46, 155);
-  textSize(90);
+  text("Updated: "+measureTime(weatherService, SpeedUnits), 46, 155);
+  textSize(80);
   text(currentTemp(weatherService, TempUnits), paddingLeft+15, paddingTop+80);
   textSize(20);
   text("Min:" + int(googleWeather.getMinTemperatureInFahrenheitInXDays(0))+"    Max:"+int(googleWeather.getMaxTemperatureInFahrenheitInXDays(0))+"F°",  paddingLeft+15, paddingTop+85+thickpad);

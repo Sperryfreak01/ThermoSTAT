@@ -1,7 +1,7 @@
 
 public class Wunderground {
-  XMLElement weatherData;
-  XMLElement currentObservations;
+  processing.xml.XMLElement weatherData;
+  processing.xml.XMLElement currentObservations;
 
   String temp_c;             //getTemp
   String wind_degrees;       //getWindDirection
@@ -217,7 +217,7 @@ public class Wunderground {
         // println(updateURL);
         //Request the current conditions from Wunderground in XML format 
         try {
-          weatherData = new XMLElement(getPapplet(), updateURL);
+          weatherData = new processing.xml.XMLElement(getPapplet(), updateURL);
           hitCount++;
           hitCountPerMinute++;
 
@@ -229,16 +229,16 @@ public class Wunderground {
 
         //find the child that contains the conditions, as of now its 3 but lets be clean about it
         for (int i = 0; i < weatherData.getChildCount(); i++) {
-          XMLElement weatherDataChildren = weatherData.getChild(i);
+          processing.xml.XMLElement weatherDataChildren = weatherData.getChild(i);
           if (weatherDataChildren.getName().equals("current_observation") ) {
             conditionsElementPos = i;
           }
         }
 
-        XMLElement currentObservations = weatherData.getChild(conditionsElementPos);
+        processing.xml.XMLElement currentObservations = weatherData.getChild(conditionsElementPos);
 
         for (int i = 0; i < currentObservations.getChildCount(); i++) {
-          XMLElement kid = currentObservations.getChild(i);
+          processing.xml.XMLElement kid = currentObservations.getChild(i);
           if (kid.getName().equals("temp_c") ) {
             temp_c = kid.getContent();
             //  println("temp C: " + temp_c);

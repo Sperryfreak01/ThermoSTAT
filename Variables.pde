@@ -7,8 +7,11 @@ import processing.serial.*;     // import the Processing serial library
 import controlP5.*;
 import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
+import com.mycila.xmltool.*;
+import org.xml.sax.SAXParseException;
 
-Properties props = new Properties();
+XMLTag xml;
+PrintWriter output;
 
 boolean read = false;
 boolean write = true;

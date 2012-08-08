@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<settings>
+    <FreezingTemp>68.0</FreezingTemp>
+    <ColdTemp>73.0</ColdTemp>
+    <CoolTemp>75.0</CoolTemp>
+    <PerfectTemp>77.0</PerfectTemp>
+    <WarmTemp>79.0</WarmTemp>
+    <HotTemp>81.0</HotTemp>
+    <HellTemp>85.0</HellTemp>
+    <TempUnits>1</TempUnits>
+    <SpeedUnits>1</SpeedUnits>
+    <weatherService>1</weatherService>
+    <sizeSelect>0</sizeSelect>
+    <WG_last_sample_date>8</WG_last_sample_date>
+    <hitCount>4</hitCount>
+    <hitCountPerMinute>4</hitCountPerMinute>
+    <apiKey>22b2e40cc17fd591</apiKey>
+</settings>
+
