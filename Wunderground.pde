@@ -1,9 +1,11 @@
 
 public class Wunderground {
-  processing.xml.XMLElement weatherData;
-  processing.xml.XMLElement currentObservations;
-
+  // processing.xmlweather.xmlweatherElement weatherData;
+  // processing.xmlweather.xmlweatherElement currentObservations;
+  String[] wgXML;
   String temp_c;             //getTemp
+  String high_c;             //getTemp
+  String low_c;             //getTemp
   String wind_degrees;       //getWindDirection
   String wind_gust_kph;      //getWindGust
   String wind_kph;           //getWindSpeed
@@ -19,7 +21,7 @@ public class Wunderground {
   public int hitCountPerMinute;
   public int date = 0;
   int minutes = minute();
-  boolean updateSuccess;
+  String updateSuccess;
 
 
 
@@ -39,7 +41,13 @@ public class Wunderground {
   }
 
   public String getUpdateTime() {
-    String date = new java.text.SimpleDateFormat("MMM d, h:m zz").format(new java.util.Date (int(observation_epoch)*1000L));
+    String date = "";
+    try {
+      date = new java.text.SimpleDateFormat("MMM d, h:m zz").format(new java.util.Date (int(observation_epoch)*1000L));
+    }
+    catch (Exception e) {
+      date = new java.text.SimpleDateFormat("MMM d, h:m zz").format(new java.util.Date (int("8975640")*1000L));
+    }
     return date;
   }
 
@@ -190,7 +198,7 @@ public class Wunderground {
     return tempOutput;
   }
 
-  public boolean update(String zipCode, String key) {
+  public String update(String zipCode, String key) {
     if (date != day()) {
       println("date:"+day());
       println("reseting hitcount");
@@ -202,10 +210,8 @@ public class Wunderground {
       minutes = minute();
     } 
 
-    updateSuccess = false;
-    if (hitCount <= 500) {
+    if (hitCount <= 490) {
       if (hitCountPerMinute <= 5) {
-        int conditionsElementPos = 0;
         //Construct URL to fetch from the zipcode provided
         String [] urlParts = new String [5];
         urlParts[0] = "http://api.wunderground.com/api/";
@@ -215,91 +221,88 @@ public class Wunderground {
         urlParts[4] = ".xml";
         String updateURL = join(urlParts, "");
         // println(updateURL);
-        //Request the current conditions from Wunderground in XML format 
-        try {
-          weatherData = new processing.xml.XMLElement(getPapplet(), updateURL);
+        //Request the current conditions from Wunderground in xmlweather format 
+        try { 
+          XMLTag xmlweather = XMLDoc.from(new URL(updateURL), true);
           hitCount++;
           hitCountPerMinute++;
+          xmlweather.gotoRoot();
+          xmlweather.gotoChild("current_observation");
+          xmlweather.gotoChild("temp_c");
+          temp_c =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("wind_degrees");
+          wind_degrees =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("wind_gust_kph");
+          wind_gust_kph =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("wind_kph");
+          wind_kph =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("pressure_mb");
+          pressure_mb =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("dewpoint_c");
+          dewpoint_c =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("heat_index_c");
+          heat_index_c =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("windchill_c");
+          windchill_c =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("icon");
+          icon =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("forecast_url");
+          forecast_url =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("observation_epoch");
+          observation_epoch =  xmlweather.getText().toString();
+          xmlweather.gotoParent();
+          xmlweather.gotoChild("relative_humidity");
+          relative_humidity =  xmlweather.getText().toString();
+          xmlweather.gotoRoot();
+          if (xmlweather.hasTag("forecast")) {
+            xmlweather.gotoChild("forecast");
+            xmlweather.gotoChild("simpleforecast");
+            xmlweather.gotoChild("forecastdays");
+            xmlweather.gotoChild(1);
+            xmlweather.gotoChild("date");
+            xmlweather.gotoChild("day");
+            if (xmlweather.getText().toString().equals(str(day()))) {
+              xmlweather.gotoParent();
+              xmlweather.gotoChild("high");
+              xmlweather.gotoChild("high_c");
+              high_c = xmlweather.getText().toString();
+              xmlweather.gotoParent();
+              xmlweather.gotoParent();
+                            xmlweather.gotoChild("low");
+              xmlweather.gotoChild("low_c");
+                            low_c = xmlweather.getText().toString();
 
-          updateSuccess = true;
-        }
+            }
+          }
+
+          updateSuccess = "Update successful";
+        }         
         catch (Exception e) {
-          updateSuccess = false;
-        }
-
-        //find the child that contains the conditions, as of now its 3 but lets be clean about it
-        for (int i = 0; i < weatherData.getChildCount(); i++) {
-          processing.xml.XMLElement weatherDataChildren = weatherData.getChild(i);
-          if (weatherDataChildren.getName().equals("current_observation") ) {
-            conditionsElementPos = i;
-          }
-        }
-
-        processing.xml.XMLElement currentObservations = weatherData.getChild(conditionsElementPos);
-
-        for (int i = 0; i < currentObservations.getChildCount(); i++) {
-          processing.xml.XMLElement kid = currentObservations.getChild(i);
-          if (kid.getName().equals("temp_c") ) {
-            temp_c = kid.getContent();
-            //  println("temp C: " + temp_c);
-          }
-          if (kid.getName().equals("wind_degrees") ) {
-            wind_degrees = kid.getContent();
-            //  println("wind_degrees: " + wind_degrees);
-          }
-          if (kid.getName().equals("wind_gust_kph") ) {
-            wind_gust_kph = kid.getContent();
-            //  println("wind_gust_kph: " + wind_gust_kph);
-          }
-          if (kid.getName().equals("wind_kph") ) {
-            wind_kph = kid.getContent();
-            //  println("wind_kph: " + wind_kph);
-          }
-          if (kid.getName().equals("pressure_mb") ) {
-            pressure_mb = kid.getContent();
-            //  println("pressure_mb: " + pressure_mb);
-          }
-          if (kid.getName().equals("dewpoint_c") ) {
-            dewpoint_c = kid.getContent();
-            //  println("dewpoint_c: " + dewpoint_c);
-          }
-          if (kid.getName().equals("heat_index_c") ) {
-            heat_index_c = kid.getContent();
-            //  println("heat_index_c: " + heat_index_c);
-          }
-          if (kid.getName().equals("windchill_c") ) {
-            windchill_c = kid.getContent();
-            //  println("windchill_c: " + windchill_c);
-          }
-          if (kid.getName().equals("icon") ) {
-            icon = kid.getContent();
-            //  println("icon: " + icon);
-          }
-          if (kid.getName().equals("forecast_url") ) {
-            forecast_url = kid.getContent();
-            //  println("forecast_url: " + forecast_url);
-          }
-          if (kid.getName().equals("observation_epoch") ) {
-            observation_epoch = kid.getContent();
-            //  println("observation_epoch: " + observation_epoch);
-          }
-          if (kid.getName().equals("relative_humidity") ) {
-            relative_humidity = kid.getContent();
-            //  println("relative_humidity: " + relative_humidity);
-          }
+          println("failed to parse WG XML");
+          println(e);
+          updateSuccess = "update failed";
         }
       }
+      else {
+        updateSuccess = "per minute api limit exceeded";
+      }
+    }
+    else {
+      updateSuccess = "daily api limit exceeded";
     }
     return updateSuccess;
   }
 }
-
-//myAnimation = new Gif(this, "http://api.wunderground.com/api/22b2e40cc17fd591/animatedradar/q/OK/Stillwater.gif?newmaps=1&timelabel=1&timelabel.y=10&num=5&delay=50");
-// myAnimation.play();
-
-
-
-
 PApplet getPapplet ()
 {
   return this;

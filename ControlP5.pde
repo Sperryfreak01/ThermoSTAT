@@ -78,9 +78,7 @@ void mouseDragged() {
   frame.setLocation(
   MouseInfo.getPointerInfo().getLocation().x-mX, 
   MouseInfo.getPointerInfo().getLocation().y-mY);
-  println(MouseInfo.getPointerInfo().getLocation().x-mX);
-  println(MouseInfo.getPointerInfo().getLocation().y-mY);
-}
+ }
 
 
 void controlEvent(ControlEvent theEvent) {

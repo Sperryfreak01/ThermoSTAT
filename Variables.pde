@@ -12,6 +12,7 @@ import org.xml.sax.SAXParseException;
 
 XMLTag xml;
 PrintWriter output;
+ XMLTag xmlweather;
 
 boolean read = false;
 boolean write = true;

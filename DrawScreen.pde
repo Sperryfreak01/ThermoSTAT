@@ -30,12 +30,12 @@ void drawWeatherNow() {
 
 
 void drawWeatherForecastToday() {
-  textSize(20);
-  text("Forecast today", 40, 540);
-  textSize(60);
-  textSize(30);
-  text(googleWeather.getWeatherInGeneralInXDays(0), 40, 660);
-  drawIcon(350, 518, 140, 140, googleWeather.getWeatherInGeneralInXDays(0));
+ // textSize(20);
+//  text("Forecast today", 40, 540);
+//  textSize(60);
+//  textSize(30);
+//  text(googleWeather.getWeatherInGeneralInXDays(0), 40, 660);
+//  drawIcon(350, 518, 140, 140, googleWeather.getWeatherInGeneralInXDays(0));
 }
 /*
 void drawWeatherForecastTomorrow() {
