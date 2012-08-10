@@ -17,8 +17,6 @@ void loadSettings() {
   wundergroundWeather.hitCountPerMinute = int(settings(read, "hitCountPerMinute", ""));
 }
 
-void storeSettings() {
-}
 
 
 void exit() {

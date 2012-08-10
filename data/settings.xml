@@ -12,8 +12,8 @@
     <weatherService>1</weatherService>
     <sizeSelect>0</sizeSelect>
     <WG_last_sample_date>9</WG_last_sample_date>
-    <hitCount>4</hitCount>
-    <hitCountPerMinute>2</hitCountPerMinute>
+    <hitCount>8</hitCount>
+    <hitCountPerMinute>3</hitCountPerMinute>
     <apiKey>22b2e40cc17fd591</apiKey>
 </settings>
 

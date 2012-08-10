@@ -19,7 +19,7 @@ void drawWeatherNow() {
   textSize(80);
   text(currentTemp(weatherService, TempUnits), paddingLeft+15, paddingTop+80);
   textSize(20);
-  text("Min:" + int(googleWeather.getMinTemperatureInFahrenheitInXDays(0))+"    Max:"+int(googleWeather.getMaxTemperatureInFahrenheitInXDays(0))+"F°",  paddingLeft+15, paddingTop+85+thickpad);
+// text("Min:" + int(googleWeather.getMinTemperatureInFahrenheitInXDays(0))+"    Max:"+int(googleWeather.getMaxTemperatureInFahrenheitInXDays(0))+"F°",  paddingLeft+15, paddingTop+85+thickpad);
   textSize(50);
   text(currentCondition(weatherService, TempUnits), paddingLeft+17, paddingTop+180);
   textSize(30);
