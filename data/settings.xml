@@ -11,9 +11,11 @@
     <SpeedUnits>1</SpeedUnits>
     <weatherService>1</weatherService>
     <sizeSelect>0</sizeSelect>
-    <WG_last_sample_date>9</WG_last_sample_date>
-    <hitCount>8</hitCount>
-    <hitCountPerMinute>3</hitCountPerMinute>
+    <updateInterval>5</updateInterval>
+    <WG_last_sample_date>13</WG_last_sample_date>
+    <WG_last_sample_minute>55</WG_last_sample_minute>
+    <hitCount>10</hitCount>
+    <hitCountPerMinute>2</hitCountPerMinute>
     <apiKey>22b2e40cc17fd591</apiKey>
 </settings>
 

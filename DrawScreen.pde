@@ -2,12 +2,12 @@ void drawTopInformation() {
   textAlign(LEFT);
   textSize(60);
   fill(fontColor);
-  text(cityName+" ", 39, 90);
+  //  text(cityName+" ", 39, 90);
   textSize(20);
-  text("Lon: "+nf(googleWeather.getLongitude(), 2, 2)+" Lat: "+nf(googleWeather.getLatitude(), 2, 2));
+  // text("Lon: "+nf(googleWeather.getLongitude(), 2, 2)+" Lat: "+nf(googleWeather.getLatitude(), 2, 2));
   textSize(20);
   textAlign(RIGHT);
-  text(topInfo.format(googleWeather.getLastUpdated()), 1070, 90);
+  // text(topInfo.format(googleWeather.getLastUpdated()), 1070, 90);
 }
 void drawWeatherNow() { 
   int paddingTop = 203;
@@ -19,7 +19,7 @@ void drawWeatherNow() {
   textSize(80);
   text(currentTemp(weatherService, TempUnits), paddingLeft+15, paddingTop+80);
   textSize(20);
-// text("Min:" + int(googleWeather.getMinTemperatureInFahrenheitInXDays(0))+"    Max:"+int(googleWeather.getMaxTemperatureInFahrenheitInXDays(0))+"F°",  paddingLeft+15, paddingTop+85+thickpad);
+  // text("Min:" + int(googleWeather.getMinTemperatureInFahrenheitInXDays(0))+"    Max:"+int(googleWeather.getMaxTemperatureInFahrenheitInXDays(0))+"F°",  paddingLeft+15, paddingTop+85+thickpad);
   textSize(50);
   text(currentCondition(weatherService, TempUnits), paddingLeft+17, paddingTop+180);
   textSize(30);
@@ -28,49 +28,119 @@ void drawWeatherNow() {
   drawIcon(280, 125, 240, 240, currentCondition(weatherService, TempUnits));
 }
 
-
-void drawWeatherForecastToday() {
- // textSize(20);
-//  text("Forecast today", 40, 540);
-//  textSize(60);
-//  textSize(30);
-//  text(googleWeather.getWeatherInGeneralInXDays(0), 40, 660);
-//  drawIcon(350, 518, 140, 140, googleWeather.getWeatherInGeneralInXDays(0));
-}
-/*
-void drawWeatherForecastTomorrow() {
-  textSize(20);
-  text(googleWeather.getWeekdayInXDays(1)+", "+getDateInXDays(1), 620, 155);
-  textSize(60);
-  text(int(googleWeather.getMinTemperatureInFahrenheitInXDays(1))+"/"+int(googleWeather.getMaxTemperatureInFahrenheitInXDays(1))+"F°", 620, 238);
-  textSize(30);
-  text(googleWeather.getWeatherInGeneralInXDays(1), 620, 279);
-  drawIcon(910, 140, 140, 140, googleWeather.getWeatherInGeneralInXDays(1));
-}
-
-void drawWeatherForecastIn2Days() {
-  int paddingTop = 300;
-  textSize(20);
-  text(googleWeather.getWeekdayInXDays(2)+", "+getDateInXDays(2), 620, 50+paddingTop);
-  textSize(60);
-  text(int(googleWeather.getMinTemperatureInFahrenheitInXDays(2))+"/"+int(googleWeather.getMaxTemperatureInFahrenheitInXDays(2))+"F°", 620, 130+paddingTop);
-  textSize(30);
-  text(googleWeather.getWeatherInGeneralInXDays(2), 620, 170+paddingTop);
-  drawIcon(910, 36+paddingTop, 140, 140, googleWeather.getWeatherInGeneralInXDays(2));
+void setupHistoryGraph() {
+  pushStyle();
+  textSize(10);
+  if (!initalSerial) {
+    minRange = min(min(outsideTempHistoryInt), min(insideTempHistoryInt))-5;
+    maxRange = max(max(outsideTempHistoryInt), max(insideTempHistoryInt));
+  }
+  else {
+    minRange = min(outsideTempHistoryInt)-5;
+    maxRange = max(outsideTempHistoryInt);
+  }
+  quarterRange = lerp(minRange, maxRange, .25);
+  halfRange = lerp(minRange, maxRange, .5);
+  threeQuarterRange = lerp(minRange, maxRange, .75);
+  text( maxRange, 3*padding, .68*height+4*padding); //prints the max measured value
+  text(int(quarterRange), 3*padding, lerp(.68*height+ (1-.142875-.537125)*height-2*padding, .68*height+4*padding, .25));
+  text(int(halfRange), 3*padding, lerp(.68*height+ (1-.142875-.537125)*height-2*padding, .68*height+4*padding, .5));
+  text(int(threeQuarterRange), 3*padding, lerp(.68*height+ (1-.142875-.537125)*height-2*padding, .68*height+4*padding, .75));
+  //text( max(max(outsideTempHistoryInt), max(insideTempHistoryInt)), 2*padding, .68*height+3*padding);
+  text( minRange, 3*padding, .68*height+ (1-.142875-.537125)*height-2*padding); //min recored value
+  stroke(255);
+  line(3*padding + textWidth("1111"), .68*height+4*padding, 3*padding + textWidth("1111"), .68*height+ (1-.142875-.537125)*height-2*padding); //y axis line
+  line(3*padding + textWidth("1111"), .68*height+ (1-.142875-.537125)*height-2*padding, .4*width-3*padding+6, .68*height+ (1-.142875-.537125)*height-2*padding); //x axis line
+  popStyle();
 }
 
-void drawWeatherForecastIn3Days() {
-  int paddingTop = 490;
-  textSize(20);
-  text(googleWeather.getWeekdayInXDays(3)+", "+getDateInXDays(3), 620, 50+paddingTop);
-  textSize(60);
-  text(int(googleWeather.getMinTemperatureInFahrenheitInXDays(3))+"/"+int(googleWeather.getMaxTemperatureInFahrenheitInXDays(3))+"F°", 620, 127+paddingTop);
-  textSize(30);
-  text(googleWeather.getWeatherInGeneralInXDays(3), 620, 170+paddingTop);
-  drawIcon(910, 38+paddingTop, 140, 140, googleWeather.getWeatherInGeneralInXDays(3));
+void drawHistoryLine() {
+  setupHistoryGraph();
+
+  pushStyle();
+  stroke(color(0, 0, 255));
+  fill(color(0, 0, 255, 200));
+  textSize(10);
+  for (int i=0; i <outsideTempHistoryInt.length; i++) {
+    int yPos = int(map(outsideTempHistoryInt[i], minRange, maxRange, .68*height+ (1-.142875-.537125)*height-2*padding -1, .68*height+4*padding));
+    int xPos = int( (.4*width-3*padding - 3*padding + textWidth("1111") )/ outsideTempHistoryInt.length);
+    int yPos2 = 0;
+
+    //  rectMode(CORNERS);
+    if (i == outsideTempHistoryInt.length) { 
+      yPos2 = int(map(outsideTempHistoryInt[outsideTempHistoryInt.length], minRange, maxRange, .68*height+ (1-.142875-.537125)*height-2*padding -1, .68*height+4*padding));
+      line(3*padding + 1+ textWidth("1111")+ i*9, yPos, (3*padding + 1+ textWidth("1111")+ i*9)+18, yPos2) ;
+    }
+    else if (i <  outsideTempHistoryInt.length - 1) {
+      yPos2 = int(map(outsideTempHistoryInt[i+1], minRange, maxRange, .68*height+ (1-.142875-.537125)*height-2*padding -1, .68*height+4*padding));
+      line(3*padding + 1+ textWidth("1111")+ i*9, yPos, (3*padding + 1+ textWidth("1111")+ i*9)+9, yPos2) ;
+    }
+  }
+  popStyle();
+
+  if (!initalSerial) {
+    pushStyle();
+    stroke(color(255, 128, 0));
+    fill(color(255, 128, 0, 200));
+    textSize(10);
+    for (int i=0; i <insideTempHistoryInt.length; i++) {
+      int yPos = int(map(insideTempHistoryInt[i], minRange, maxRange, .68*height+ (1-.142875-.537125)*height-2*padding -1, .68*height+4*padding));
+      int xPos = int( (.4*width-3*padding - 3*padding + textWidth("1111") )/ insideTempHistoryInt.length);
+      int yPos2 = 0;
+
+      //  rectMode(CORNERS);
+      if (i == insideTempHistoryInt.length) { 
+        yPos2 = int(map(insideTempHistoryInt[insideTempHistoryInt.length], minRange, maxRange, .68*height+ (1-.142875-.537125)*height-2*padding -1, .68*height+4*padding));
+        line(3*padding + 1+ textWidth("1111")+ i*9, yPos, (3*padding + 1+ textWidth("1111")+ i*9)+18, yPos2) ;
+      }
+      else if (i <  insideTempHistoryInt.length - 1) {
+        yPos2 = int(map(insideTempHistoryInt[i+1], minRange, maxRange, .68*height+ (1-.142875-.537125)*height-2*padding -1, .68*height+4*padding));
+        line(3*padding + 1+ textWidth("1111")+ i*9, yPos, (3*padding + 1+ textWidth("1111")+ i*9)+9, yPos2) ;
+      }
+    }
+    popStyle();
+  }
 }
 
-*/
+void drawHistoryBar() {
+  setupHistoryGraph();
+  pushStyle();
+  stroke(color(0, 0, 255));
+  fill(color(0, 0, 255, 200));
+  textSize(10);
+  for (int i=0; i <outsideTempHistoryInt.length; i++) {
+    int yPos = int(map(outsideTempHistoryInt[i], minRange, maxRange, .68*height+ (1-.142875-.537125)*height-2*padding -1, .68*height+4*padding));
+    int xPos = int( (.4*width-3*padding - 3*padding + textWidth("1111") )/ outsideTempHistoryInt.length);
+    rectMode(CORNERS);
+    rect(3*padding + 1+ textWidth("1111")+ i*9, yPos, (3*padding + 1+ textWidth("1111")+ i*9)+9, .68*height + (1-.142875-.537125)*height-2*padding -1);
+  }
+  popStyle();
+  if (!initalSerial) {
+    pushStyle();
+    // stroke(color(255, 128, 0));
+    // fill(color(255, 128, 0, 100));
+    textSize(10);
+
+    for (int i=0; i <insideTempHistoryInt.length; i++) {
+      if (insideTempHistoryInt[i] > outsideTempHistoryInt[i] ) {
+        stroke(color(255, 128, 0)); //orange
+        fill(color(255, 128, 0, 1)); //orange with partial transparent
+      }
+      else {
+        stroke(color(255, 128, 0));
+        fill(color(255, 128, 0, 192));
+      }
+      int yPos = int(map(insideTempHistoryInt[i], minRange, maxRange, .68*height + (1-.142875-.537125)*height-2*padding -1, .68*height+4*padding));
+      int xPos = int( (.4*width-3*padding - 3*padding + textWidth("1111") )/ insideTempHistoryInt.length);
+      rectMode(CORNERS);
+      rect(3*padding + 1+ textWidth("1111")+ i*9, yPos, 3*padding + 1+ textWidth("1111")+ i*9+9, .68*height+ (1-.142875-.537125)*height-2*padding -1);
+    }
+    popStyle();
+  }
+}
+
+
+
 void drawHouseInformation() {
   float houseXstart = .4*width+padding;
   float houseYstart = .142875*height+2*padding;
@@ -144,8 +214,5 @@ void drawHouseInformation() {
    */
 
   smooth();
-
-
-
-  // houseWidth - 2*thickpad, (houseWidth - 2*thickpad)/2
 }
+

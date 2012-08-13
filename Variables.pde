@@ -9,11 +9,32 @@ import java.util.prefs.Preferences;
 import java.util.prefs.BackingStoreException;
 import com.mycila.xmltool.*;
 import org.xml.sax.SAXParseException;
+import java.util.logging.*;
+import java.util.logging.Level;
 
+    int outdoorCount = 0;
+    int indoorCount = 0;
+
+
+String[] outsideTempHistorySave = new String[48];
+String[] insideTempHistorySave = new String[48];
+String[] outsideTempHistoryLoad = new String[48];
+String[] insideTempHistoryLoad = new String[48];
+int[] outsideTempHistoryInt = new int[48];
+int[] insideTempHistoryInt = new int[48];
+
+float quarterRange;
+float halfRange;
+float threeQuarterRange;
+int updateRateMin = 5;
+float outdoorTempatureAvg = 0;
+float indoorTempatureAvg = 0;
+Logger logger;
 XMLTag xml;
 PrintWriter output;
- XMLTag xmlweather;
-
+XMLTag xmlweather;
+int minRange = 0;
+int maxRange = 0;
 boolean read = false;
 boolean write = true;
 boolean restartFlag = false;
@@ -29,6 +50,7 @@ int TempUnits = 1;
 int SpeedUnits = 1;
 // 0=720p 1=1080p 2=fullscreen
 int sizeSelect= 0;
+
 
 
 //ControlP5 UI items

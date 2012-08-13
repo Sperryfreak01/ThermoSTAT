@@ -1,5 +1,6 @@
 
 void loadSettings() {
+  updateRateMin =  int(settings(read, "updateInterval", ""));
   sizeSelect = int(settings(read, "sizeSelect", ""));
   weatherService = int(settings(read, "weatherService", ""));
   TempUnits = int(settings(read, "TempUnits", ""));
@@ -13,26 +14,33 @@ void loadSettings() {
   HellTemp = int(settings(read, "HellTemp", ""));
   apiKey = settings(read, "apiKey", "");
   wundergroundWeather.date = int(settings(read, "WG_last_sample_date", ""));
+  wundergroundWeather.minutes = int(settings(read, "WG_last_sample_minute", ""));
   wundergroundWeather.hitCount = int(settings(read, "hitCount", ""));
   wundergroundWeather.hitCountPerMinute = int(settings(read, "hitCountPerMinute", ""));
+
 }
 
 
 
 void exit() {
   println("EXIT HOOK");
-  settings(write,"","");
+  settings(write, "", "");
+  saveTempHistory(dataPath("")+"csv.csv"); 
   super.exit();
 }
 
+ArrayList outsideTempHistory;
+ArrayList insideTempHistory;
 
 public void setup() {
-  openXMLfile((dataPath("") + "settings.xml"));
-  googleWeather = new GoogleWeather(this, cityName, updateIntervallInSeconds);      
+  //  openXMLfile((dataPath("") + "settings.xml"));
+  // googleWeather = new GoogleWeather(this, cityName, updateIntervallInSeconds);      
   wundergroundWeather = new Wunderground();
   loadSettings();
 
-  switch (int(settings (read, "sizeSelect", ""))) {
+
+
+    switch (int(settings (read, "sizeSelect", ""))) {
   case 0:
     size(1280, 720);
     break;
@@ -48,10 +56,8 @@ public void setup() {
     frameRate(30);
     colorMode(RGB);
     frame.setLocation(0, 0);
-
+    loadTempHistory(dataPath("")+ "24hrTemps.csv");
     updateWeather(int(settings(read, "weatherService", "")));
-
-
     setupFont();
     //setupSerial();
     setupCP5();
@@ -64,15 +70,19 @@ public void draw() {
     drawBackground();
     drawTopInformation();
     drawWeatherNow();
-    drawWeatherForecastToday();
+    drawHistoryBar();
     drawHouseInformation();
     updateInterval = millis();
   } 
+  if (millis() > updateIntervalold + 100) {
+    outdoorTempatureLogger();
+    updateIntervalold = millis();
+  }
 
   if (updateFlag && !initalSerial) {
-    updateWeather(weatherService);
+    //updateWeather(weatherService); //conserves API request leave disabled unless debugging
     myPort.write(5);
-    println("Updating");
+    println("Updating indoor temps");
     updateFlag = !updateFlag;
   }
 
@@ -80,9 +90,14 @@ public void draw() {
   {
     drawSettingsWindow(false);
   }
-  if (updateInterval > updateIntervalold + 30000 && !initalSerial) {
-    updateIntervalold = updateInterval;
-    myPort.write(5);
+  if (millis() > updateIntervalold + updateRateMin*100000) { //updates from weather services and sensors every 5 minutes
+    updateIntervalold = millis();
+    updateWeather(weatherService);
+    outdoorTempatureLogger();
+    if (!initalSerial) {
+      myPort.write(5);
+      indoorTempatureLogger();
+    }
     println("Updating");
   }
 }

@@ -1,7 +1,7 @@
 String currentTemp(int serviceSelect, int units) {
   String FormatedTemp= "!!!";
   if (serviceSelect == 0) {
-        switch (units) {
+    switch (units) {
     case 0:
       FormatedTemp = nfc((float(googleWeather.getTemperatureInFahrenheit()) - 32)*5/9, 1) + "°C";
       break;
@@ -16,13 +16,13 @@ String currentTemp(int serviceSelect, int units) {
   if (serviceSelect == 1) {
     switch (units) {
     case 0:
-      FormatedTemp = nfc(wundergroundWeather.getTemp("celsius"),1) + "°C";
+      FormatedTemp = nfc(wundergroundWeather.getTemp("celsius"), 1) + "°C";
       break;
     case 1:
-      FormatedTemp = nfc(wundergroundWeather.getTemp("fahrenheit"),1)  + "°F";
+      FormatedTemp = nfc(wundergroundWeather.getTemp("fahrenheit"), 1)  + "°F";
       break;
     case 2: 
-      FormatedTemp = nfc(wundergroundWeather.getTemp("kelvin"),1)  + "K";
+      FormatedTemp = nfc(wundergroundWeather.getTemp("kelvin"), 1)  + "K";
       break;
     }
   }
@@ -33,7 +33,7 @@ String currentTemp(int serviceSelect, int units) {
 String measureTime(int serviceSelect, int units) {
   String time= "";
   if (serviceSelect == 0) {
-    time = new java.text.SimpleDateFormat("MMM d, h:m zz").format(googleWeather.getLastUpdated());
+    time = new java.text.SimpleDateFormat("MMM d, h:mm zz").format(googleWeather.getLastUpdated());
   }
   if (serviceSelect == 1) {
     time = wundergroundWeather.getUpdateTime();
@@ -44,7 +44,7 @@ String measureTime(int serviceSelect, int units) {
 String currentHumidity(int serviceSelect, int units) {
   String humidity= "";
   if (serviceSelect == 0) {
-    humidity = nfc(googleWeather.getHumidityInPercent(),0);
+    humidity = nfc(googleWeather.getHumidityInPercent(), 0);
   }
   if (serviceSelect == 1) {
     humidity = wundergroundWeather.getHumidity();
@@ -58,7 +58,7 @@ String currentWindDirection(int serviceSelect, int units) {
     direction = googleWeather.getWindDirectionString();
   }
   if (serviceSelect == 1) {
-    direction = nfc(wundergroundWeather.getWindDirection("degrees"),0)+"°";
+    direction = nfc(wundergroundWeather.getWindDirection("degrees"), 0)+"°";
   }
   return direction;
 }
@@ -199,7 +199,29 @@ void drawIcon(int xPos, int yPos, int sizeX, int sizeY, String weatherS) {
   else if (weatherS.equals("Snow")) {
     iconSVG = loadShape("fin/snow.svg");
   }
-
   shape(iconSVG, xPos, yPos, sizeX, sizeY);
+}
+
+void outdoorTempatureLogger() {
+  String[] currentTempSpliter = splitTokens(currentTemp(weatherService, TempUnits), "°K");
+  outdoorTempatureAvg = outdoorTempatureAvg + float(currentTempSpliter[0]);
+  outdoorCount++;
+  if (outdoorCount == 6) { 
+    outdoorTempatureAvg = outdoorTempatureAvg/6;
+    updateTempHistory("Outside", int(outdoorTempatureAvg));
+    outdoorCount = 0;
+    outdoorTempatureAvg = 0;
+  }
+}
+
+void indoorTempatureLogger() {
+  indoorTempatureAvg = indoorTempatureAvg + float(LivingTemp);
+  indoorCount++;
+  if (indoorCount == 6) { 
+    indoorTempatureAvg = indoorTempatureAvg/6;
+    updateTempHistory("Inside", int(indoorTempatureAvg));
+    indoorCount = 0;
+    indoorTempatureAvg = 0;
+  }
 }
 

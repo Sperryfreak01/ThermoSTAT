@@ -13,14 +13,14 @@ public class Wunderground {
   String dewpoint_c;         //getDewPoint
   String heat_index_c;       //getHeatIndex
   String windchill_c;        //getWindChill
-  String icon;               //getCondition
-  String forecast_url;       //getForecastLink
-  String observation_epoch;  //getUpdateTime
+  String icon = "Offline";               //getCondition
+  String forecast_url = "www.example.com";       //getForecastLink
+  String observation_epoch = "8975640";  //getUpdateTime
   String relative_humidity;  //getHumidity
   public int hitCount;
   public int hitCountPerMinute;
   public int date = 0;
-  int minutes = minute();
+  public int minutes = 0;
   String updateSuccess;
 
 
@@ -34,25 +34,15 @@ public class Wunderground {
   public String getCondition() {
     String formatedIcon = "";
     String[] temp = new String [2];
-    try {
-      temp[0] = icon.substring(0, 1).toUpperCase();
-      temp[1] = icon.substring(1, icon.length());
-      formatedIcon = join(temp, "");
-    }
-    catch(Exception e) {
-      formatedIcon = "Offline";
-    }
+    temp[0] = icon.substring(0, 1).toUpperCase();
+    temp[1] = icon.substring(1, icon.length());
+    formatedIcon = join(temp, "");
     return formatedIcon;
   }
 
   public String getUpdateTime() {
     String date = "";
-    try {
-      date = new java.text.SimpleDateFormat("MMM d, h:m zz").format(new java.util.Date (int(observation_epoch)*1000L));
-    }
-    catch (Exception e) {
-      date = new java.text.SimpleDateFormat("MMM d, h:m zz").format(new java.util.Date (int("8975640")*1000L));
-    }
+      date = new java.text.SimpleDateFormat("MMM d, h:mm zz").format(new java.util.Date (int(observation_epoch)*1000L));
     return date;
   }
 
@@ -60,24 +50,14 @@ public class Wunderground {
     String[] humidityOutput = new String[2];
     humidityOutput[0] = new String("");
     humidityOutput[1] = new String("");
-    try {
-      //accepts celsius, fahrenheit, kelvin as valid units
-      humidityOutput = split (relative_humidity, "%") ;
-    }
-    catch (Exception e) {
-      humidityOutput[0] = "101";
-    }      
+    //accepts celsius, fahrenheit, kelvin as valid units
+    humidityOutput = split (relative_humidity, "%") ;
     return humidityOutput[0];
   }
 
   public String getForecastLink() {
     String forecast; 
-    try { 
-      forecast = forecast_url;
-    } 
-    catch (Exception e) {
-      forecast = "www.example.com";
-    }
+    forecast = forecast_url;
     return forecast_url;
   }
 
@@ -85,14 +65,8 @@ public class Wunderground {
     //accepts celsius, fahrenheit, kelvin as valid units
     float windChill;
     float windChillOutput = 0;
-
-    try {
-      windChill = float(windchill_c);
-    }
-    catch (Exception e) {
-      windChill = 100.0;
-    }
-
+    windChill = float(windchill_c);
+ 
     if (units.equals("celsius")) {
       windChillOutput = windChill;
     }
@@ -109,12 +83,7 @@ public class Wunderground {
     //accepts celsius, fahrenheit, kelvin as valid units
     float heatIndex ;
     float heatIndexOutput = 0;
-    try {
-      heatIndex = float(heat_index_c);
-    }
-    catch (Exception e) {
-      heatIndex = 100.0;
-    }
+     heatIndex = float(heat_index_c);
 
     if (units.equals("celsius")) {
       heatIndexOutput = heatIndex;
@@ -132,12 +101,7 @@ public class Wunderground {
     //accepts celsius, fahrenheit, kelvin as valid units
     float dewpoint;
     float dewPointOutput = 0;
-    try {
-      dewpoint = float(dewpoint_c);
-    }
-    catch(Exception e) {
-      dewpoint = 100.0;
-    }
+    dewpoint = float(dewpoint_c);
 
     if (units.equals("celsius")) {
       dewPointOutput = dewpoint;
@@ -155,12 +119,7 @@ public class Wunderground {
     //accepts mbar, mmHg, or inHg as units
     float airPressureFloat;
     float airPressureOutput = 0;
-    try {
-      airPressureFloat = float(pressure_mb);
-    }
-    catch (Exception e) {
-      airPressureFloat = 0.0;
-    }
+    airPressureFloat = float(pressure_mb);
     if (units.equals("mbar")) {
       airPressureOutput = airPressureFloat;
     }
@@ -177,12 +136,7 @@ public class Wunderground {
     //accepts kmh,mph, or kts as units
     float windSpeed;
     float windSpeedOutput = 0;
-    try {
-      windSpeed = float(wind_kph);
-    }
-    catch(Exception e) {
-      windSpeed = 318.0;
-    }
+    windSpeed = float(wind_kph);
     if (units.equals("kmh")) {
       windSpeedOutput = windSpeed;
     }
@@ -199,12 +153,7 @@ public class Wunderground {
     //accepts kmh,mph, or kts as units
     float windGustOutput = 0;
     float windGust;
-    try {
-      windGust = float(wind_gust_kph);
-    }
-    catch(Exception e) {
-      windGust = 318.0;
-    }
+    windGust = float(wind_gust_kph);
     if (units.equals("kmh")) {
       windGustOutput = windGust;
     }
@@ -221,12 +170,7 @@ public class Wunderground {
     //accepts degrees or radians as units
     float directionOutput = 0;
     float windDirectionFloat;
-    try {
-      windDirectionFloat = float(wind_degrees);
-    }
-    catch(Exception e) {
-      windDirectionFloat = 720.0;
-    }
+    windDirectionFloat = float(wind_degrees);
     if (units.equals("degrees")) {
       directionOutput = windDirectionFloat;
     }
@@ -239,14 +183,9 @@ public class Wunderground {
   public float getTemp(String units) {
     //accepts celsius, fahrenheit, kelvin as valid units
 
-      float tempOutput = 0;
+    float tempOutput = 0;
     float temperature;
-    try {
-      temperature = float(temp_c);
-    }
-    catch(Exception e) {
-      temperature = 100.0;
-    }
+    temperature = float(temp_c);
     if (units.equals("celsius")) {
       tempOutput = temperature;
     }
@@ -348,7 +287,6 @@ public class Wunderground {
           updateSuccess = "Update successful";
         }         
         catch (Exception e) {
-          println("failed to parse WG XML");
           println(e);
           updateSuccess = "update failed";
         }
