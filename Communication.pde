@@ -31,15 +31,6 @@ void serialEvent(Serial myPort) {
   // send a byte to ask for more data:
   // myPort.write(5);
 }
-void openXMLfile(String filename) {
-  println(filename);
-  try {
-  } 
-  catch (Exception e) {
-    println(e);
-  }
-}
-
 
 /* called automatically whenever an XML file is loaded */
 String settings(boolean RW, String label, String attr) {

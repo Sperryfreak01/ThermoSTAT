@@ -66,6 +66,7 @@ void drawHistoryLine() {
   setupHistoryGraph();
 
   pushStyle();
+  strokeWeight(5);
   stroke(color(0, 0, 255));
   fill(color(0, 0, 255, 200));
   textSize(10);
@@ -88,6 +89,7 @@ void drawHistoryLine() {
 
   if (!initalSerial) {
     pushStyle();
+    strokeWeight(5);
     stroke(color(255, 128, 0));
     fill(color(255, 128, 0, 200));
     textSize(10);
@@ -164,8 +166,9 @@ void drawHouseInformation() {
   rect(houseXstart + thickpad, houseYstart + thickpad, houseWidth - houseWidth*.125- 2*thickpad, (houseWidth - 2*thickpad)/5.5 );
   textSize(60);
   fill(0);
-  text(LaundryTemp, houseXstart + (houseWidth - houseWidth*.125- 2*thickpad)/2, houseYstart + 2*thickpad +((houseWidth - 2*thickpad)/5.5)/2 );
-
+  if (!initalSerial) {
+    text(LaundryTemp, houseXstart + (houseWidth - houseWidth*.125- 2*thickpad)/2, houseYstart + 2*thickpad +((houseWidth - 2*thickpad)/5.5)/2 );
+  }
   popStyle();
 
   pushStyle(); //draw the living room
@@ -177,8 +180,9 @@ void drawHouseInformation() {
   rect(houseXstart + houseWidth/2 + thickpad, houseYstart + thickpad +(houseWidth - 2*thickpad)/5.5, houseWidth/2 - 2*thickpad, houseHeight - 2*thickpad -(houseWidth - 2*thickpad)/5.5 );
   textSize(60);
   fill(0);
-  text(LivingTemp, houseXstart + houseWidth/2 + ((houseWidth/2 - 2*thickpad)/2), houseYstart + thickpad +(houseWidth - 3*thickpad)/5.5+((houseHeight - 2*thickpad -(houseWidth - 2*thickpad)/5.5)/2)  );
-
+  if (!initalSerial) {
+    text(LivingTemp, houseXstart + houseWidth/2 + ((houseWidth/2 - 2*thickpad)/2), houseYstart + thickpad +(houseWidth - 3*thickpad)/5.5+((houseHeight - 2*thickpad -(houseWidth - 2*thickpad)/5.5)/2)  );
+  }
   popStyle();
 
   pushStyle(); //draw the kitchen

@@ -77,7 +77,7 @@ public void draw() {
     drawBackground();
     drawTopInformation();
     drawWeatherNow();
-    drawHistoryBar();
+    drawHistoryLine();
     drawHouseInformation();
     updateInterval = millis();
   } 

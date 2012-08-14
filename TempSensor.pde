@@ -7,64 +7,69 @@
 
 
 color TempReading(int Room, int TempValue, boolean Update, boolean drawTemp) {
-  color roomColor = #CCCCCC;
-    if (Update == false) {
-    if (Room == 1 ) {
+  color roomColor = color(96);
+  if (!Update) {
+    switch(Room) {
+    case 1:
       LaundryTemp = round((TempValue*.1074)*1.8)+30;
       println("Laundry Room= " + LaundryTemp +"°")  ;
-  }
-    if (Room == 2 ) {
+      break;
+    case 2:
       LivingTemp = round(TempValue*.1074);
       println("Living Room= " + LivingTemp +"°");
-
-    }
-    if (Room == 3 ) {
+      break;
+    case 3:
       KitchenTemp = round(TempValue*.11);
-    }
-    if (Room == 4 ) {
+      break;
+    case 4:
       StudyTemp = round(TempValue*.11);
+      break;
     }
   }
-  if (drawTemp == true) {
-    if (Room == 1 ) {
+  if (drawTemp) {
+    switch(Room) {
+    case 1:
       TempValue = LaundryTemp ;
-    }
-    if (Room == 2 ) {
+      break;
+    case 2:
       TempValue = LivingTemp ;
-    }
-    if (Room == 3 ) {
+      break;
+    case 3:
       TempValue = KitchenTemp;
-    }
-    if (Room == 4 ) {
+      break;
+    case 4:
       TempValue = StudyTemp;
+      break;
     }
   }
 
-  if (Update == true) {
-    if (TempValue < FreezingTemp) {
-      roomColor = #1531AE;
-    }   
-    if (TempValue >= ColdTemp) {
-      roomColor = #39AECF;
-    }   
-    if (TempValue > CoolTemp) {
-      roomColor = #33CCCC;
-    }   
-    if (TempValue > PerfectTemp) {
-      roomColor = #3BDA00;
-    }   
-    if (TempValue > WarmTemp) {
-      roomColor = #FFFC00;
-    }     
-    if (TempValue > HotTemp) {
-      roomColor = #FF9400;
-    }  
-    if (TempValue > HellTemp) {
-      roomColor = #FF0000;
+    if (Update) {
+      if (TempValue < FreezingTemp) {
+        roomColor = #1531AE;
+      }   
+      if (TempValue >= ColdTemp) {
+        roomColor = #39AECF;
+      }   
+      if (TempValue > CoolTemp) {
+        roomColor = #33CCCC;
+      }   
+      if (TempValue > PerfectTemp) {
+        roomColor = #3BDA00;
+      }   
+      if (TempValue > WarmTemp) {
+        roomColor = #FFFC00;
+      }     
+      if (TempValue > HotTemp) {
+        roomColor = #FF9400;
+      }  
+      if (TempValue > HellTemp) {
+        roomColor = #FF0000;
+      }
+      if (initalSerial) {
+        roomColor = color(96);
+      }
     }
+
+    return roomColor;
   }
-
-  return roomColor;
-}
-
 
