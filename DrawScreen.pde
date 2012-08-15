@@ -37,6 +37,7 @@ void drawWeatherNow() {
 }
 
 void setupHistoryGraph() {
+
   pushStyle();
   textSize(10);
   if (!initalSerial) {
@@ -110,6 +111,19 @@ void drawHistoryLine() {
     }
     popStyle();
   }
+  pushStyle();
+      textSize(10);
+  if ( mouseX > 3*padding + textWidth("1111") && mouseX < .4*width-3*padding+6 && mouseY >  .68*height+4*padding && mouseY < .68*height+ (1-.142875-.537125)*height-2*padding) {
+
+    cursor(CROSS);
+    textSize(15);
+
+    text(nfc(lerp(maxRange, minRange, norm(mouseY, .68*height+4*padding, .68*height+ (1-.142875-.537125)*height-2*padding)), 1)+"°", mouseX+15, mouseY-15);
+  }
+  else {
+    cursor(ARROW);
+  }
+      popStyle();
 }
 
 void drawHistoryBar() {
@@ -147,6 +161,19 @@ void drawHistoryBar() {
     }
     popStyle();
   }
+   pushStyle();
+      textSize(10);
+  if ( mouseX > 3*padding + textWidth("1111") && mouseX < .4*width-3*padding+6 && mouseY >  .68*height+4*padding && mouseY < .68*height+ (1-.142875-.537125)*height-2*padding) {
+
+    cursor(CROSS);
+    textSize(15);
+
+    text(nfc(lerp(maxRange, minRange, norm(mouseY, .68*height+4*padding, .68*height+ (1-.142875-.537125)*height-2*padding)), 1)+"°", mouseX+15, mouseY-15);
+  }
+  else {
+    cursor(ARROW);
+  }
+      popStyle();
 }
 
 
