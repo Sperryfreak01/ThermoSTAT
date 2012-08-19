@@ -19,9 +19,12 @@ import com.mycila.xmltool.*;
 import org.xml.sax.SAXParseException;
 import java.util.logging.*;
 import java.util.logging.Level;
+import gifAnimation.*;
 
-    int outdoorCount = 0;
-    int indoorCount = 0;
+
+int outdoorCount = 0;
+int indoorCount = 0;
+boolean radarFlag = false;
 
 
 String[] outsideTempHistorySave = new String[48];
@@ -61,8 +64,8 @@ int sizeSelect= 0;
 
 
 
-//ControlP5 UI items
-ControlP5 cp5;  
+  //ControlP5 UI items
+  ControlP5 cp5;  
 DropdownList d1;  //ComPort dropdown menu 
 DropdownList resolution;  //window size dropdown menu
 DropdownList service;
@@ -77,6 +80,9 @@ Textfield WarmBox;
 Textfield HotBox;
 Textfield HellBox;
 Textfield apiBox;
+Button radarButton;
+Button houseButton;
+
 
 String activeTextField = ""; //stores the active temp range text box, so it cannot be cleared twice
 

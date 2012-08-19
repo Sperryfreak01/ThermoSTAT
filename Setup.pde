@@ -55,15 +55,32 @@ void setupCP5() {
   cp5 = new ControlP5(this);
   float firstPosX = width/2 - 320 + padding + thickpad + 160;
   float firstPosY =  1.25*(height/2 - 180 + 3*padding + thickpad) + padding ;
+PImage[] imgs = {
+  loadImage(dataPath("")+"settings.png"), loadImage(dataPath("")+"settings.png"), loadImage(dataPath("")+"settings_pushed.png")
+  };
+PImage[] radarImgs= {
+  loadImage(dataPath("")+"radar.png"), loadImage(dataPath("")+"radar.png"), loadImage(dataPath("")+"radar_pushed.png")
+  };
+PImage[] houseImgs= {
+  loadImage(dataPath("")+"home.png"), loadImage(dataPath("")+"home.png"), loadImage(dataPath("")+"home_pushed.png")
+  };
 
-  PImage[] imgs = {
-    loadImage("settings.png"), loadImage("settings.png"), loadImage("settings_pushed.png")
-    };
-    cp5.addButton("Settings")
-      .setPosition(1175, 25)
-        .setImages(imgs)
-          .updateSize()
-            ;
+  cp5.addButton("Settings")
+    .setPosition(width*.9, thickpad)
+      .setImages(imgs)
+        .updateSize()
+          ;
+  radarButton = cp5.addButton("Radar")
+    .setPosition(width*.8, thickpad)
+      .setImages(radarImgs)
+        .updateSize()
+          ;
+   houseButton = cp5.addButton("House")
+    .setPosition(width*.8, thickpad)
+      .setImages(houseImgs)
+        .updateSize()
+        .setVisible(false)
+          ;
 
   FreezingBox =  cp5.addTextfield("FreezingBox")
     .setPosition(firstPosX, firstPosY)
@@ -74,8 +91,8 @@ void setupCP5() {
               .setAutoClear(false)
                 .setLabel("")
                   .setText(str(FreezingTemp))
-             //.setInputFilter(ControlP5.INTEGER); 
-  ;
+                    //.setInputFilter(ControlP5.INTEGER); 
+                    ;
 
   ColdBox =  cp5.addTextfield("ColdBox")
     .setPosition(firstPosX, firstPosY + thickpad)
@@ -87,7 +104,7 @@ void setupCP5() {
                 .setLabel("")
                   .setText(str(ColdTemp))
                     //.setInputFilter(ControlP5.INTEGER);
-  ;
+                    ;
   CoolBox = cp5.addTextfield("CoolBox")
     .setPosition(firstPosX, firstPosY + 2*thickpad)
       .setSize(40, 20)
@@ -98,7 +115,7 @@ void setupCP5() {
                 .setLabel("")
                   .setText(str(CoolTemp))
                     //.setInputFilter(ControlP5.INTEGER);
-  ;
+                    ;
 
   PerfectBox = cp5.addTextfield("PerfectBox")
     .setPosition(firstPosX, firstPosY + 3*thickpad)
@@ -110,7 +127,7 @@ void setupCP5() {
                 .setLabel("")
                   .setText(str(PerfectTemp))
                     //.setInputFilter(ControlP5.INTEGER);
-  ;
+                    ;
 
   WarmBox = cp5.addTextfield("WarmBox")
     .setPosition(firstPosX, firstPosY + 4*thickpad)
@@ -122,7 +139,7 @@ void setupCP5() {
                 .setLabel("")
                   .setText(str(WarmTemp))
                     //.setInputFilter(ControlP5.INTEGER);
-  ;
+                    ;
 
   HotBox = cp5.addTextfield("HotBox")
     .setPosition(firstPosX, firstPosY + 5*thickpad)
@@ -134,7 +151,7 @@ void setupCP5() {
                 .setLabel("")
                   .setText(str(HotTemp))
                     //.setInputFilter(ControlP5.INTEGER);
-  ;
+                    ;
 
   HellBox = cp5.addTextfield("HellBox")
     .setPosition(firstPosX, firstPosY + 6*thickpad)
@@ -146,7 +163,7 @@ void setupCP5() {
                 .setLabel("")
                   .setText(str(HellTemp))
                     //.setInputFilter(ControlP5.INTEGER);
-  ;
+                    ;
   apiBox = cp5.addTextfield("apiBox")
     .setPosition(width/2 - 320 + padding + thickpad, 1.25*(height/2 - 180 + 3*padding + thickpad)+padding*1.6 + 5*thickpad)
       .setSize(100, 20)

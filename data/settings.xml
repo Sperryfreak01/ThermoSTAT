@@ -12,10 +12,10 @@
     <weatherService>1</weatherService>
     <sizeSelect>0</sizeSelect>
     <updateInterval>5</updateInterval>
-    <WG_last_sample_date>15</WG_last_sample_date>
-    <WG_last_sample_minute>2</WG_last_sample_minute>
-    <hitCount>8</hitCount>
-    <hitCountPerMinute>2</hitCountPerMinute>
+    <WG_last_sample_date>19</WG_last_sample_date>
+    <WG_last_sample_minute>1</WG_last_sample_minute>
+    <hitCount>33</hitCount>
+    <hitCountPerMinute>0</hitCountPerMinute>
     <apiKey>22b2e40cc17fd591</apiKey>
 </settings>
 

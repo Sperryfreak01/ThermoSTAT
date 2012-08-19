@@ -10,6 +10,7 @@
 public class Wunderground {
   // processing.xmlweather.xmlweatherElement weatherData;
   // processing.xmlweather.xmlweatherElement currentObservations;
+  Gif loopingGif;
   String[] wgXML;
   String temp_c;             //getTemp
   String high_c;             //getTemp
@@ -30,7 +31,7 @@ public class Wunderground {
   public int date = 0;
   public int minutes = 0;
   String updateSuccess;
-
+   Gif APIfail = new Gif(getPapplet(), dataPath("") + "APIrate.gif");
 
 
   void setHitCounter(int dayCount, int minCount) {
@@ -50,7 +51,7 @@ public class Wunderground {
 
   public String getUpdateTime() {
     String date = "";
-      date = new java.text.SimpleDateFormat("MMM d, h:mm zz").format(new java.util.Date (int(observation_epoch)*1000L));
+    date = new java.text.SimpleDateFormat("MMM d, h:mm zz").format(new java.util.Date (int(observation_epoch)*1000L));
     return date;
   }
 
@@ -74,7 +75,7 @@ public class Wunderground {
     float windChill;
     float windChillOutput = 0;
     windChill = float(windchill_c);
- 
+
     if (units.equals("celsius")) {
       windChillOutput = windChill;
     }
@@ -91,7 +92,7 @@ public class Wunderground {
     //accepts celsius, fahrenheit, kelvin as valid units
     float heatIndex ;
     float heatIndexOutput = 0;
-     heatIndex = float(heat_index_c);
+    heatIndex = float(heat_index_c);
 
     if (units.equals("celsius")) {
       heatIndexOutput = heatIndex;
@@ -191,7 +192,7 @@ public class Wunderground {
   public float getTemp(String units) {
     //accepts celsius, fahrenheit, kelvin as valid units
 
-    float tempOutput = 0;
+      float tempOutput = 0;
     float temperature;
     temperature = float(temp_c);
     if (units.equals("celsius")) {
@@ -204,6 +205,47 @@ public class Wunderground {
       tempOutput = temperature + 273.15;
     }
     return tempOutput;
+  }
+  Gif updateRadar(String zipCode, String key, int imgHeight, int imgWidth) {
+
+    if (date != day()) {
+      println("date:"+day());
+      println("reseting hitcount");
+      hitCount = 0;
+      date = day();
+    } 
+    if (minutes != minute()) {
+      hitCountPerMinute = 0;
+      minutes = minute();
+    } 
+
+    if (hitCount <= 490) {
+      if (hitCountPerMinute <= 3) {
+        println(hitCountPerMinute);
+        //Request the current conditions from Wunderground in xmlweather format 
+        hitCount++;
+        hitCountPerMinute++;
+        String [] urlParts = new String [5];
+        urlParts[0] = "http://api.wunderground.com/api/";
+        urlParts[1] = key;
+        urlParts[2] = "/animatedradar/q/";
+        urlParts[3] = zipCode;
+        urlParts[4] = ".gif?newmaps=1&timelabel=1&timelabel.y=10&num=8&delay=50"+"&width="+str(imgWidth)+"&height="+str(imgHeight);
+        String updateURL = join(urlParts, "");
+        println(updateURL);
+        loopingGif = new Gif(getPapplet(), updateURL);
+        loopingGif.loop();
+      }
+      else {
+        loopingGif = APIfail;
+        loopingGif.noLoop();
+      }
+    }
+    else {
+      loopingGif = APIfail;
+      loopingGif.noLoop();
+    }
+    return loopingGif;
   }
 
   public String update(String zipCode, String key) {
@@ -219,7 +261,7 @@ public class Wunderground {
     } 
 
     if (hitCount <= 490) {
-      if (hitCountPerMinute <= 5) {
+      if (hitCountPerMinute <= 3) {
         //Construct URL to fetch from the zipcode provided
         String [] urlParts = new String [5];
         urlParts[0] = "http://api.wunderground.com/api/";

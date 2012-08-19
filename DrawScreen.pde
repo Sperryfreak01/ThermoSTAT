@@ -4,7 +4,23 @@
  * To Public License, Version 2, as published by Sam Hocevar. See
  * http://sam.zoy.org/wtfpl/COPYING for more details. */
 
+import gifAnimation.*;
+PImage[] animation;
+Gif loopingGif;
 
+
+
+void updateRadar() {
+  float houseWidth = .6*width-2*padding - 2*thickpad;
+  float houseHeight = height-.142875*height-3*padding - 2*thickpad;
+  loopingGif = wundergroundWeather.updateRadar("74074", apiKey, int(houseHeight), int(houseWidth));
+}
+
+void drawRadar() {
+  float houseXstart = .4*width+padding + thickpad;
+  float houseYstart = .142875*height+2*padding + thickpad;
+  image(loopingGif, houseXstart, houseYstart);
+}
 
 void drawTopInformation() {
   textAlign(LEFT);
@@ -112,7 +128,7 @@ void drawHistoryLine() {
     popStyle();
   }
   pushStyle();
-      textSize(10);
+  textSize(10);
   if ( mouseX > 3*padding + textWidth("1111") && mouseX < .4*width-3*padding+6 && mouseY >  .68*height+4*padding && mouseY < .68*height+ (1-.142875-.537125)*height-2*padding) {
 
     cursor(CROSS);
@@ -123,7 +139,7 @@ void drawHistoryLine() {
   else {
     cursor(ARROW);
   }
-      popStyle();
+  popStyle();
 }
 
 void drawHistoryBar() {
@@ -161,8 +177,8 @@ void drawHistoryBar() {
     }
     popStyle();
   }
-   pushStyle();
-      textSize(10);
+  pushStyle();
+  textSize(10);
   if ( mouseX > 3*padding + textWidth("1111") && mouseX < .4*width-3*padding+6 && mouseY >  .68*height+4*padding && mouseY < .68*height+ (1-.142875-.537125)*height-2*padding) {
 
     cursor(CROSS);
@@ -173,7 +189,7 @@ void drawHistoryBar() {
   else {
     cursor(ARROW);
   }
-      popStyle();
+  popStyle();
 }
 
 

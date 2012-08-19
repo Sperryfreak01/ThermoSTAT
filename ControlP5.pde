@@ -86,7 +86,7 @@ void mouseDragged() {
   frame.setLocation(
   MouseInfo.getPointerInfo().getLocation().x-mX, 
   MouseInfo.getPointerInfo().getLocation().y-mY);
- }
+}
 
 
 void controlEvent(ControlEvent theEvent) {
@@ -131,6 +131,21 @@ void controlEvent(ControlEvent theEvent) {
   }
   else if (theEvent.isController()) {
     //  println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
+    if (theEvent.isFrom("Radar")) {
+      radarFlag = true;
+      if (radarFlag) {
+        updateRadar(); //fetches the first radar image when the disp is set to radar
+        radarButton.setVisible(false);
+        houseButton.setVisible(true);
+      }
+    }
+    if (theEvent.isFrom("House")) {
+      radarFlag = false;
+      if (!radarFlag) {
+        radarButton.setVisible(true);
+        houseButton.setVisible(false);
+      }
+    }
 
     if (theEvent.isFrom("Settings")) {
       SettingsFlag = ! SettingsFlag;
@@ -167,7 +182,7 @@ void controlEvent(ControlEvent theEvent) {
       HellBox.setVisible(SettingsFlag);
     }
     if (theEvent.isFrom("apiBox")) {
-       apiKey = (apiBox.getText());
+      apiKey = (apiBox.getText());
       if ((apiBox.getText()).equals("")) { //check if user didnt enter anything
         println("got apiBox null");     
         apiKey = apiBoxOld;        //roll setpoint back
@@ -175,7 +190,7 @@ void controlEvent(ControlEvent theEvent) {
       }
     }
     if (theEvent.isFrom("FreezingBox")) {
-            FreezingTemp = float(FreezingBox.getText());
+      FreezingTemp = float(FreezingBox.getText());
       if ((FreezingBox.getText()).equals("")) { //check if user didnt enter anything
         println("got freezingbox null");     
         FreezingTemp = FreezingBoxOld;        //roll setpoint back
@@ -194,7 +209,7 @@ void controlEvent(ControlEvent theEvent) {
       }
     }
     if (theEvent.isFrom("CoolBox")) {
-                              CoolTemp = float(CoolBox.getText());
+      CoolTemp = float(CoolBox.getText());
       if ((CoolBox.getText()).equals("")) { //check if user didnt enter anything
         println("got CoolBox null");     
         CoolTemp = CoolBoxOld;        //roll setpoint back
@@ -203,7 +218,7 @@ void controlEvent(ControlEvent theEvent) {
       }
     }
     if (theEvent.isFrom("PerfectBox")) {
-                        PerfectTemp = float(PerfectBox.getText());
+      PerfectTemp = float(PerfectBox.getText());
       if ((PerfectBox.getText()).equals("")) { //check if user didnt enter anything
         println("got PerfectBox null");     
         PerfectTemp = PerfectBoxOld;        //roll setpoint back
@@ -212,7 +227,7 @@ void controlEvent(ControlEvent theEvent) {
       }
     }
     if (theEvent.isFrom("WarmBox")) {
-                  WarmTemp = float(WarmBox.getText());
+      WarmTemp = float(WarmBox.getText());
       if ((WarmBox.getText()).equals("")) { //check if user didnt enter anything
         println("got WarmBox null");     
         WarmTemp = WarmBoxOld;        //roll setpoint back
@@ -221,7 +236,7 @@ void controlEvent(ControlEvent theEvent) {
       }
     }
     if (theEvent.isFrom("HotBox")) {
-            HotTemp = float(HotBox.getText());
+      HotTemp = float(HotBox.getText());
       if ((HotBox.getText()).equals("")) { //check if user didnt enter anything
         println("got HotBox null");     
         HotTemp = HotBoxOld;        //roll setpoint back

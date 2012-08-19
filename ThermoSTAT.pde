@@ -24,7 +24,6 @@ void loadSettings() {
   wundergroundWeather.minutes = int(settings(read, "WG_last_sample_minute", ""));
   wundergroundWeather.hitCount = int(settings(read, "hitCount", ""));
   wundergroundWeather.hitCountPerMinute = int(settings(read, "hitCountPerMinute", ""));
-
 }
 
 
@@ -47,7 +46,7 @@ public void setup() {
 
 
 
-    switch (int(settings (read, "sizeSelect", ""))) {
+  switch (int(settings (read, "sizeSelect", ""))) {
   case 0:
     size(1280, 720);
     break;
@@ -68,6 +67,8 @@ public void setup() {
     setupFont();
     //setupSerial();
     setupCP5();
+    //setupRadar();
+    updateInterval = millis();
   }
 }
 
@@ -78,12 +79,16 @@ public void draw() {
     drawTopInformation();
     drawWeatherNow();
     drawHistoryBar();
-    drawHouseInformation();
+    if(radarFlag){
+    drawRadar();
+    }else {
+      drawHouseInformation();
+    }
     updateInterval = millis();
   } 
-  if (millis() > updateIntervalold + 100) {
-    outdoorTempatureLogger();
-    updateIntervalold = millis();
+  else if (SettingsFlag)
+  {
+    drawSettingsWindow(false);
   }
 
   if (updateFlag && !initalSerial) {
@@ -92,11 +97,6 @@ public void draw() {
     println("Updating indoor temps");
     updateFlag = !updateFlag;
   }
-
-  if (SettingsFlag)
-  {
-    drawSettingsWindow(false);
-  }
   if (millis() > updateIntervalold + updateRateMin*100000) { //updates from weather services and sensors every 5 minutes
     updateIntervalold = millis();
     updateWeather(weatherService);
@@ -104,6 +104,9 @@ public void draw() {
     if (!initalSerial) {
       myPort.write(5);
       indoorTempatureLogger();
+    }
+    if(radarFlag){
+      updateRadar();
     }
     println("Updating");
   }
